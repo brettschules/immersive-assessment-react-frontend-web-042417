@@ -1,34 +1,34 @@
 import React from 'react'
 
-const TransactionsList = () => {
+const TransactionsList = ({TransactionsList}) => {
+// {console.log(TransactionsList.map(p => p.posted_at))}
 
   return (
+  
     <table className="ui celled striped padded table">
       <tbody>
         <tr>
           <th>
             <h3 className="ui center aligned header">
-              Posted At
+              Posted At {TransactionsList.map(p => p.posted_at)}
             </h3>
           </th>
           <th>
             <h3 className="ui center aligned header">
-              Description
+              Description {TransactionsList.map(p => p.description)}
             </h3>
           </th>
           <th>
             <h3 className="ui center aligned header">
-              Category
+              Category {TransactionsList.map(p => p.category)}
             </h3>
           </th>
           <th>
             <h3 className="ui center aligned header">
-              Amount
+              Amount {TransactionsList.map(p => p.amount)}
             </h3>
           </th>
         </tr>
-
-        {"... your code here..."}
 
       </tbody>
     </table>

@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import TransactionsList from './TransactionsList'
+import Transaction from './Transaction'
 import Search from './Search'
 
+const URL = 'https://boiling-brook-94902.herokuapp.com/transactions'
 class AccountContainer extends Component {
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     // we have provided this default state for you,
     // use this to get the functionality working
@@ -46,16 +48,46 @@ class AccountContainer extends Component {
     }
   }
 
-  handleChange(event) {
-    // your code here
+  componentWillMount() {
+    this.fetchURL()
   }
+
+  fetchURL() {
+    fetch(URL)
+    .then(resp => resp.json())
+    .then(set => this.setState.transactions({
+      set
+    }))
+  }
+
+  handleSubmit(event) {
+    this.setState({
+      searchTerm: event
+    })
+  }
+
+  filteredTranscations() {
+    if (this.state.searchTerm === " ") {
+      return this.state.transactions
+    } else {
+      // return first transaction that matches either the description or searchTerm
+      return this.state.transactions.find((t) => t.description.toLowerCase().includes(this.state.searchTerm.toLowerCase()) || t.category.toLowerCase().includes(this.state.searchTerm.toLowerCase()))
+    }
+  }
+
 
   render() {
 
     return (
       <div>
-        <Search searchTerm={this.state.searchTerm} handleChange={"...add code here..."} />
-        <TransactionsList transactions={this.state.transactions} searchTerm={this.state.searchTerm} />
+        <div className="Account">
+          <Search handleSubmit={this.handleSubmit.bind(this)} />
+          <TransactionsList transactions={this.filteredTranscations.bind(this)} />
+          </div>
+
+          <div className="Transactions">
+            <Transaction transactions={this.state.transactions} />
+          </div>
       </div>
     )
   }
